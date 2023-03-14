@@ -9,6 +9,16 @@
 
                     <div class="card-body">
                         <a class="btn btn-info" href="{{route("cars.create")}}">Add new car</a>
+                        <hr/>
+                        <form method="post" action="{{route("cars.search")}}">
+                            @csrf
+                            <div class="mb-3">
+                                <input class="form-control" name="name"
+                                       placeholder="Find car (by registration number, brand or model)" value="{{$searchCarName}}">
+                            </div>
+                            <button class="btn btn-success">Find</button>
+                        </form>
+                        <hr/>
                         <table class="table">
                             <thead>
                             <tr>

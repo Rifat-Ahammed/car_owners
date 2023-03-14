@@ -11,9 +11,21 @@ class CarController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view("cars.index",["cars"=>Car::all()]);
+        $searchCarName = $request->session()->get('searchCarName');
+        if($searchCarName!=null){
+            $cars=Car::where('reg_number', 'like', $searchCarName)->
+            orWhere('brand', 'like', $searchCarName)->
+            orWhere('model', 'like', $searchCarName)->
+            with('owner')->get();
+        }else{
+            $cars=Car::with('owner')->get();
+        }
+        return view("cars.index", [
+            "cars"=>$cars,
+            "searchCarName"=>$searchCarName
+        ]);
     }
 
     /**
@@ -80,6 +92,11 @@ class CarController extends Controller
     public function destroy(Car $car)
     {
         $car->delete();
+        return redirect()->route("cars.index");
+    }
+
+    public function search(Request $request){
+        $request->session()->put('searchCarName', $request->name);
         return redirect()->route("cars.index");
     }
 }

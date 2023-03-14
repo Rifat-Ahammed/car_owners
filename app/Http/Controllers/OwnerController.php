@@ -10,9 +10,21 @@ class OwnerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(
+        Request $request)
     {
-        return view("owners.index", ["owners"=>Owner::all()]);
+        $searchOwnerName = $request->session()->get('searchOwnerName');
+        if($searchOwnerName!=null){
+            $owners=Owner::where('name', 'like', $searchOwnerName)->
+            orWhere('surname', 'like', $searchOwnerName)->
+            with('cars')->get();
+        }else{
+            $owners=Owner::with('cars')->get();
+        }
+        return view("owners.index", [
+            "owners"=>$owners,
+            "searchOwnerName"=>$searchOwnerName
+        ]);
     }
 
     /**
@@ -70,6 +82,10 @@ class OwnerController extends Controller
     public function destroy(Owner $owner)
     {
         $owner->delete();
+        return redirect()->route("owners.index");
+    }
+    public function search(Request $request){
+        $request->session()->put('searchOwnerName', $request->name);
         return redirect()->route("owners.index");
     }
 }

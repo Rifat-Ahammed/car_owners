@@ -9,6 +9,16 @@
 
                     <div class="card-body">
                         <a class="btn btn-info" href="{{route("owners.create")}}">Add new owners</a>
+                        <hr/>
+                        <form method="post" action="{{route("owners.search")}}">
+                            @csrf
+                            <div class="mb-3">
+                                <input class="form-control" name="name"
+                                       placeholder="Find owner (by name or surname)" value="{{$searchOwnerName}}">
+                            </div>
+                            <button class="btn btn-success">Find</button>
+                        </form>
+                        <hr/>
                         <table class="table">
                             <thead>
                             <tr>
@@ -25,7 +35,7 @@
                                     <td>{{$owner->name}}</td>
                                     <td>{{$owner->surname}}</td>
                                     <td>
-                                        @foreach($own->cars as $car)
+                                        @foreach($owner->cars as $car)
                                             {{$car->brand}} {{$car->model}}
                                         @endforeach
                                     </td>
