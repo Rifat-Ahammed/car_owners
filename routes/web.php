@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\OwnerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,15 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource("owners", \App\Http\Controllers\OwnerController::class);
-Route::resource("cars", \App\Http\Controllers\CarController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/owners', [OwnerController::class, 'index'])->name('owners.index');
+    Route::get('/cars', [CarController::class, 'index'])->name('cars.index');
 
+    Route::post("owners/search", [OwnerController::class, 'search'])->name("owners.search")->middleware('replace');
+    Route::post("cars/search", [CarController::class, 'search'])->name("cars.search");
+
+    Route::resource("owners", OwnerController::class)->except(['index'])->middleware('admin');;
+    Route::resource("cars", CarController::class)->except(['index'])->middleware('admin');
+});
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::post("owners/search", [\App\Http\Controllers\OwnerController::class,'search'])->name("owners.search");
-Route::post("cars/search", [\App\Http\Controllers\CarController::class, 'search'])->name("cars.search");
