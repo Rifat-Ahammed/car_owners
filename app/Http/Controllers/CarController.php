@@ -41,6 +41,17 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'reg_number'=>'required|size:7',
+            'brand'=>'required',
+            'model'=>'required',
+            'owner_id'=>'required'
+        ], [
+            "reg_number"=>__("Registration number is required and must be in format [ABC 123]"),
+            "brand"=>__("Brand is required"),
+            "model"=>__("Model is required"),
+            "owner_id"=>__("Choose an owner for the new car")
+        ]);
         $car = new Car();
         $car->reg_number=$request->reg_number;
         $car->brand=$request->brand;

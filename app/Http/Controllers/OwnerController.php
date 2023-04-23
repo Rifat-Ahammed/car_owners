@@ -44,6 +44,14 @@ class OwnerController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name'=>'required|min:2',
+            'surname'=>'required|min:2',
+        ], [
+            "name"=>__("Name is required and must be at least 2 characters"),
+            "surname"=>__("Surname is required and must be at least 2 characters"),
+        ]);
+
         $owner = new Owner();
         $owner->name=$request->name;
         $owner->surname=$request->surname;

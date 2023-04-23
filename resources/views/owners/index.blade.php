@@ -5,10 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Owner</div>
+                    <div class="card-header">{{__('Owners')}}</div>
 
                     <div class="card-body">
-                        <a class="btn btn-info" href="{{route("owners.create")}}">Add new owners</a>
+                        <a class="btn btn-info" href="{{route("owners.create")}}">{{__("Add new owners")}}</a>
                         <hr/>
                         <form method="post" action="{{route("owners.search")}}">
                             @csrf
