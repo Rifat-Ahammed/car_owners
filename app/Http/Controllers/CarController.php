@@ -92,7 +92,16 @@ class CarController extends Controller
         $car->brand=$request->brand;
         $car->model=$request->model;
 //        $car->owner_id=$request->owner_id;
+        if($request->file('image')!=null){
+            if($car->image!=null){
+                unlink(storage_path()."/app/public/cars/".$car->image);
+            }
+            $request->file('image')->store('/public/cars');
+            $car->image=$request->file('image')->hashName();
+        }
+
         $car->save();
+
 
         return redirect()->route("cars.index");
     }

@@ -32,6 +32,11 @@
                             <tbody>
                             @foreach($cars as $car)
                                 <tr>
+                                    <td>
+                                        @if ($car->image!=null)
+                                            <img src="{{asset("/storage/cars/".$car->image)}}" width="100">
+                                        @endif
+                                    </td>
                                     <td>{{$car->id}}</td>
                                     <td>{{$car->reg_number}}</td>
                                     <td>{{$car->brand}} {{$car->model}}</td>

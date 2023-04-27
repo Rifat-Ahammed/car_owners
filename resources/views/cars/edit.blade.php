@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
                     <div class="card-body">
-                        <form method="post" action="{{ route('cars.update', $car->id) }}">
+                        <form method="post" action="{{ route('cars.update', $car->id) }} "enctype="multipart/form-data">
                             @csrf
                             @method("put")
                             <div class="mb-3">
@@ -22,6 +22,10 @@
                             <div class="mb-3">
                                 <label class="form-label">Model</label>
                                 <input type="text" name="model" value="{{$car->model}}"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">"Image</label>
+                                <input class="form-control" type="file" name="image">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Owner: {{$car->owner->name}} {{$car->owner->surname}}</label>
