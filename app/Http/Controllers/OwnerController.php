@@ -9,6 +9,7 @@ class OwnerController extends Controller
 {
     public function __construct()
     {
+        $this->authorizeResource(Owner::class, 'owner');
     }
 
     /**
